@@ -6,6 +6,8 @@
 #
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
+# Modified by Phan Hung on 2024-6-7
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,11 +39,11 @@ from ppstructure.table.table_master_match import TableMasterMatcher
 from ppstructure.utility import parse_args
 import ppstructure.table.predict_structure as predict_strture
 
-# Modified by Phan Hung on 2024-6-7
+# My first modified start from here
 from vietocr.tool.predictor import Predictor
 from vietocr.tool.config import Cfg
 from PIL import Image
-# Modified by Phan Hung on 2024-6-7
+# My first modified end from here
 
 logger = get_logger()
 
@@ -126,12 +128,12 @@ class TableSystem(object):
 
     def _ocr(self, img):
 
-        # Modified by Phan Hung on 2024-6-7
+        # My second modified start from here
         config = Cfg.load_config_from_name('vgg_transformer')
         config['cnn']['pretrained']=False
         config['device'] = 'cpu'
         detector = Predictor(config)
-        # Modified by Phan Hung on 2024-6-7
+        # My second modified end from here
 
         h, w = img.shape[:2]
         dt_boxes, det_elapse = self.text_detector(copy.deepcopy(img))
@@ -158,13 +160,13 @@ class TableSystem(object):
             img_crop_list.append(text_rect)
         rec_res, rec_elapse = self.text_recognizer(img_crop_list)
 
-        # Modified by Phan Hung on 2024-6-7
+        # My third modified start from here
         text = []
         for i in range(len(img_crop_list)):
             text.append((detector.predict(Image.fromarray(img_crop_list[i])), rec_res[i][1]))
         rec_res = text
-        # Modified by Phan Hung on 2024-6-7
-        
+        # My third modified end from here
+
         logger.debug("rec_res num  : {}, elapse : {}".format(len(rec_res), rec_elapse))
         return dt_boxes, rec_res, det_elapse, rec_elapse
 
