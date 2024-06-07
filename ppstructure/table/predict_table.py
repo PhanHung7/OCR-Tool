@@ -37,9 +37,11 @@ from ppstructure.table.table_master_match import TableMasterMatcher
 from ppstructure.utility import parse_args
 import ppstructure.table.predict_structure as predict_strture
 
+# Modified by Phan Hung on 2024-6-7
 from vietocr.tool.predictor import Predictor
 from vietocr.tool.config import Cfg
 from PIL import Image
+# Modified by Phan Hung on 2024-6-7
 
 logger = get_logger()
 
@@ -123,12 +125,14 @@ class TableSystem(object):
         return structure_res, elapse
 
     def _ocr(self, img):
-        """Chèn model vietocr"""
+
+        # Modified by Phan Hung on 2024-6-7
         config = Cfg.load_config_from_name('vgg_transformer')
         config['cnn']['pretrained']=False
         config['device'] = 'cpu'
         detector = Predictor(config)
-        """Code nguyên mẫu bên dưới"""
+        # Modified by Phan Hung on 2024-6-7
+
         h, w = img.shape[:2]
         dt_boxes, det_elapse = self.text_detector(copy.deepcopy(img))
         dt_boxes = sorted_boxes(dt_boxes)
@@ -153,13 +157,14 @@ class TableSystem(object):
             text_rect = img[int(y0) : int(y1), int(x0) : int(x1), :]
             img_crop_list.append(text_rect)
         rec_res, rec_elapse = self.text_recognizer(img_crop_list)
-        """Code thêm để dùng vietocr"""
+
+        # Modified by Phan Hung on 2024-6-7
         text = []
         for i in range(len(img_crop_list)):
             text.append((detector.predict(Image.fromarray(img_crop_list[i])), rec_res[i][1]))
         rec_res = text
-        """Đoạn này dùng vietocr để dự đoán và thay lại text trong rec_res
-        Mục đích để thay tiếng Việt trước khi html được tạo ra"""
+        # Modified by Phan Hung on 2024-6-7
+        
         logger.debug("rec_res num  : {}, elapse : {}".format(len(rec_res), rec_elapse))
         return dt_boxes, rec_res, det_elapse, rec_elapse
 
