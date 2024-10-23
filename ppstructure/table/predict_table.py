@@ -39,11 +39,11 @@ from ppstructure.table.table_master_match import TableMasterMatcher
 from ppstructure.utility import parse_args
 import ppstructure.table.predict_structure as predict_strture
 
-# My first modified start from here
+# My modified start from here
 from vietocr.tool.predictor import Predictor
 from vietocr.tool.config import Cfg
 from PIL import Image
-# My first modified end from here
+# My modified end from here
 
 logger = get_logger()
 
@@ -105,7 +105,7 @@ class TableSystem(object):
         result["cell_bbox"] = structure_res[1].tolist()
         time_dict["table"] = elapse
 
-        dt_boxes, rec_res, det_elapse, rec_elapse = self._ocr(copy.deepcopy(img))
+        dt_boxes, rec_res, det_elapse, rec_elapse = self._ocr(copy.deepcopy(img), self.args)
         time_dict["det"] = det_elapse
         time_dict["rec"] = rec_elapse
 
@@ -126,14 +126,14 @@ class TableSystem(object):
         structure_res, elapse = self.table_structurer(copy.deepcopy(img))
         return structure_res, elapse
 
-    def _ocr(self, img):
+    def _ocr(self, img, args):
 
-        # My second modified start from here
-        config = Cfg.load_config_from_name('vgg_transformer')
+        # My modified start from here
+        config = Cfg.load_config_from_file(r"D:\\OCR\\OCR\\vietocr\\base.yml")
         config['cnn']['pretrained']=False
         config['device'] = 'cpu'
         detector = Predictor(config)
-        # My second modified end from here
+        # My modified end from here
 
         h, w = img.shape[:2]
         dt_boxes, det_elapse = self.text_detector(copy.deepcopy(img))
@@ -159,15 +159,17 @@ class TableSystem(object):
             text_rect = img[int(y0) : int(y1), int(x0) : int(x1), :]
             img_crop_list.append(text_rect)
         rec_res, rec_elapse = self.text_recognizer(img_crop_list)
-
-        # My third modified start from here
-        text = []
-        for i in range(len(img_crop_list)):
-            text.append((detector.predict(Image.fromarray(img_crop_list[i])), rec_res[i][1]))
-        rec_res = text
-        # My third modified end from here
+        
+        # My modified start from here
+        if args.vietocr:
+            text = []
+            for i in range(len(img_crop_list)):
+                text.append((detector.predict(Image.fromarray(img_crop_list[i])), rec_res[i][1]))
+            rec_res = text
+        # My modified end from here
 
         logger.debug("rec_res num  : {}, elapse : {}".format(len(rec_res), rec_elapse))
+        
         return dt_boxes, rec_res, det_elapse, rec_elapse
 
 

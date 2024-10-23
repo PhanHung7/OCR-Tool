@@ -6,6 +6,8 @@
 #
 #    http://www.apache.org/licenses/LICENSE-2.0
 #
+# Modified by Phan Hung on 2024-6-7
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -126,6 +128,15 @@ def init_args():
         default=(255, 255, 255),
         help="Replacement color for the alpha channel, if the latter is present; R,G,B integers",
     )
+    # My modified start from here
+    # param for vietocr
+    parser.add_argument(
+        "--vietocr",
+        type=str2bool,
+        default=False,
+        help="To enable vietocr for OCR Vietnamese",
+    )
+    # My modified start from here
 
     return parser
 
