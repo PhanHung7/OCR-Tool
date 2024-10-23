@@ -1,7 +1,9 @@
 # Công cụ OCR
 Dự án này được phát triển dựa trên [PP-OCR](https://github.com/PaddlePaddle/PaddleOCR) của PaddlePaddle. Và sử dụng model Vgg Seq2seq của [VietOCR](https://github.com/pbcquoc/vietocr) của pbcquoc.
 
-Dự án có chỉnh sửa source code của PP-OCR để có thể kết hợp thêm mô hình VietOCR vào trong Pipeline của PP-OCR.
+Dự án có chỉnh sửa source code của PP-OCR để có thể kết hợp thêm mô hình VietOCR vào trong Pipeline của PP-OCR. Bên cạnh đó kết hợp thêm OpenCV để có thể xoay ảnh được về đúng vị trí văn bản trong trường hợp ảnh bị xoay. 
+File code sử dụng OpenCV để xoay ảnh trong project là file [rotate_image.py](https://github.com/PhanHung7/OCR-Tool/blob/main/rotate_image.py) mặc dù độ chính xác chưa được 100% nhưng cũng lớn hơn 90% khi xoay ảnh. 
+Vì còn đang nghiên cứu nên vẫn sẽ bị lỗi xảy ra khi xoay ảnh nhưng đã được tạm thời bỏ qua khi chạy code trong dự án.
 
 # Cài đặt
 Vì trong dự án này mình sử dụng bản cũ của PP-OCR và có sự can thiệp vào soucre code của PP-OCR nên phải clone git về mới có thể chạy local. Để có thể cài đặt dự án và chạy local thì hãy chạy lệnh. 
