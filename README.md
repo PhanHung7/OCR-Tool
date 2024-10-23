@@ -29,6 +29,7 @@ Dưới đây là một số thư viện cần thiết để chạy chương tr�
 !pip install pdf2image
 ```
 
+Để chạy công cụ OCR hãy vào file main.py để có thể chạy vì project này sử dụng FastAPI để có thể deploy công cụ OCR.
 # Kết quả
 Mình đã chạy thử với một vài file trong dự án và kết quả được lưu lại ở trong các folder output_file_(số) các bạn có thể tham khảo.
 
